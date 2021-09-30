@@ -12,20 +12,14 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    db.collection('tasks').updateMany({
-        completed: true
-    }, {
-            $set: {
-                completed: false
-            }
-        }).then(result => {
-            if (result.result.nModified > 0) {
-                console.log("I think it worked!", result)
-            } else {
-                console.log("It didn't work!")
+    db.collection('users').deleteOne({
+        name: "Janey"
+    }).then(result => {
+        result.result.n > 0 ?
+            console.log('Successfully deleted your document!', result) :
+            console.log("There was nothing to delete.")
+    }).catch(error => {
+        console.log(error)
 
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
+    })
 })
